@@ -8,7 +8,7 @@ public class Test {
 		
 		diogo.setProperty("nome", "Diogo");
 		
-		System.out.println(diogo.getProperty("nome"));
+		System.out.println(diogo.getProperty("nome", String.class));
 		
 		try {
 			diogo.getProperty("sabeJulia?");
