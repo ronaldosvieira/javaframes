@@ -1,8 +1,11 @@
 package javaframes;
 
-public class InstanceFrame {
-
+public class InstanceFrame extends Frame {
 	public InstanceFrame() {
 		super();
+	}
+	
+	public InstanceFrame(Frame parent) {
+		super(parent);
 	}
 }
