@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public abstract class Frame {
+	protected Frame parent;
 	private Map<String, Property<? extends Object>> properties;
 	private Map<String, Runnable> ifAdded;
 	private Map<String, Runnable> ifNeeded;
@@ -13,6 +14,10 @@ public abstract class Frame {
 		this.properties = new HashMap<>();
 		this.ifAdded = new HashMap<>();
 		this.ifNeeded = new HashMap<>();
+	}
+	
+	public Frame(Frame parent) {
+		this.parent = parent;
 	}
 
 	public Object get(String key) {
