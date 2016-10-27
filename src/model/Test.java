@@ -1,4 +1,4 @@
-package javaframes;
+package model;
 
 import java.util.NoSuchElementException;
 
@@ -6,12 +6,12 @@ public class Test {
 	public static void main(String[] args) {
 		GenericFrame diogo = new GenericFrame();
 		
-		diogo.setProperty("nome", "Diogo");
+		diogo.add("nome", "Diogo");
 		
-		System.out.println(diogo.getProperty("nome", String.class));
+		System.out.println(diogo.get("nome", String.class));
 		
 		try {
-			diogo.getProperty("sabeJulia?");
+			diogo.get("sabeJulia?");
 		} catch (NoSuchElementException e) {
 			System.out.println(e.getMessage());
 		}

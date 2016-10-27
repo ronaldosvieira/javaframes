@@ -1,4 +1,4 @@
-package javaframes;
+package model;
 
 public class InstanceFrame {
 

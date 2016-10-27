@@ -1,4 +1,4 @@
-package javaframes;
+package model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ public abstract class Frame {
 		this.ifNeeded = new HashMap<>();
 	}
 
-	public Object getProperty(String key) {
+	public Object get(String key) {
 		if (this.properties.containsKey(key)) {
 			if (this.ifNeeded.containsKey(key)) {
 				this.ifNeeded.get(key).run();
@@ -27,7 +27,7 @@ public abstract class Frame {
 		}
 	}
 	
-	public <T> T getProperty(String key, Class<T> type) {
+	public <T> T get(String key, Class<T> type) {
 		if (this.properties.containsKey(key)) {
 			if (this.ifNeeded.containsKey(key)) {
 				this.ifNeeded.get(key).run();
@@ -43,12 +43,11 @@ public abstract class Frame {
 		}
 	}
 	
-	public <T> void setProperty(String key, T value) {
+	public <T> void add(String key, T value) {
 		this.properties.put(key, new Property<Object>(value));
 		
 		if (this.ifAdded.containsKey(key)) {
 			this.ifAdded.get(key).run();
 		}
 	}
-
 }
