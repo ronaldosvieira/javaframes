@@ -24,16 +24,21 @@ public abstract class Frame {
     public void setName(String name) {this.name = name;}
 
     public boolean contains(String key) {
-	    return slots.containsKey(key) && slots.get(key).hasValue();
+	    return slots.containsKey(key);
+    }
+    
+    protected Slot find(String key) throws NoSuchElementException {
+	    if (this.contains(key))
+	        return slots.get(key);
+	    else if (parent != null && parent.contains(key))
+	        return parent.find(key);
+	    else
+	        throw new NoSuchElementException("Slot '" + key
+                    + "' not found on frame " + getName());
     }
 
-	public Object get(String key) {
-	    if (this.contains(key))
-	        return slots.get(key).getValue();
-        else if (parent != null && parent.contains(key))
-            return parent.get(key);
-        else
-            throw new NoSuchElementException("Slot '" + key + "' not found on frame " + getName());
+	public Object get(String key) throws NoSuchElementException {
+	    return this.find(key).getValue();
 	}
 
 	public <T> T get(String key, Class<T> type) throws ClassCastException {
@@ -49,6 +54,13 @@ public abstract class Frame {
 	}
 	
 	public <T> void add(String key, T value) {
-        slots.put(key, new Slot(value));
+	    try {
+	        Slot slot = this.find(key);
+	        slot.setValue(value);
+
+	        slots.put(key, slot);
+        } catch (NoSuchElementException e) {
+            slots.put(key, new Slot(value));
+        }
 	}
 }

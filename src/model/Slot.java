@@ -6,7 +6,10 @@ public class Slot {
     public Slot() {}
     public Slot(Object value) {this.value = value;}
 
-    public Object getValue() {return this.value;}
+    public Object getValue() {
+        // todo: use value or if_needed or default
+        return this.value;
+    }
     public void setValue(Object value) {this.value = value;}
 
     public boolean hasValue() {return this.value != null;}
