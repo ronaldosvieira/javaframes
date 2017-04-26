@@ -20,7 +20,7 @@ public abstract class Frame {
     }
 
     public String getName() {return this.name;}
-	public GenericFrame getParent() {return this.parent;}
+	public GenericFrame parent() {return this.parent;}
     public void setName(String name) {this.name = name;}
 
     public boolean contains(String key) {
