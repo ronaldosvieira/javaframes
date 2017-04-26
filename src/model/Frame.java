@@ -23,12 +23,17 @@ public abstract class Frame {
 	public GenericFrame getParent() {return this.parent;}
     public void setName(String name) {this.name = name;}
 
+    public boolean contains(String key) {
+	    return slots.containsKey(key);
+    }
+
 	public Object get(String key) {
-	    if (slots.containsKey(key)) {
+	    if (this.contains(key))
 	        return slots.get(key);
-        } else {
-	        throw new NoSuchElementException("Slot '" + key + "' not found on frame " + getName());
-        }
+        else if (parent != null && parent.contains(key))
+            return parent.get(key);
+        else
+            throw new NoSuchElementException("Slot '" + key + "' not found on frame " + getName());
 	}
 
 	public <T> T get(String key, Class<T> type) throws ClassCastException {
