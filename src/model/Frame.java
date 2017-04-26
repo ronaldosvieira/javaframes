@@ -5,54 +5,45 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public abstract class Frame {
-	protected Frame parent;
-	private Map<String, Property<? extends Object>> properties;
-	private Map<String, Runnable> ifAdded;
-	private Map<String, Runnable> ifNeeded;
+    private String name;
+	protected GenericFrame parent;
+	private Map<String, Object> slots;
 	
-	public Frame() {
-		this.properties = new HashMap<>();
-		this.ifAdded = new HashMap<>();
-		this.ifNeeded = new HashMap<>();
+	public Frame(String name) {
+	    this.name = name;
+	    this.slots = new HashMap<>();
 	}
 	
-	public Frame(Frame parent) {
-		this.parent = parent;
-	}
+	public Frame(String name, GenericFrame parent) {
+        this(name);
+        this.parent = parent;
+    }
+
+    public String getName() {return this.name;}
+	public GenericFrame getParent() {return this.parent;}
+    public void setName(String name) {this.name = name;}
 
 	public Object get(String key) {
-		if (this.properties.containsKey(key)) {
-			if (this.ifNeeded.containsKey(key)) {
-				this.ifNeeded.get(key).run();
-			}
-			
-			return this.properties.get(key).get();
-		} else {
-			throw new NoSuchElementException("Property not found");
-		}
+	    if (slots.containsKey(key)) {
+	        return slots.get(key);
+        } else {
+	        throw new NoSuchElementException("Slot '" + key + "' not found on frame " + getName());
+        }
 	}
-	
-	public <T> T get(String key, Class<T> type) {
-		if (this.properties.containsKey(key)) {
-			if (this.ifNeeded.containsKey(key)) {
-				this.ifNeeded.get(key).run();
-			}
-			
-			try {
-				return type.cast(this.properties.get(key).get());
-			} catch (ClassCastException e) {
-				throw new IllegalArgumentException("Get property with wrong type");
-			}
-		} else {
-			throw new NoSuchElementException("Property not found");
-		}
+
+	public <T> T get(String key, Class<T> type) throws ClassCastException {
+        Object value = this.get(key);
+
+	    try {
+            return type.cast(value);
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Slot '" + key + "' is of type "
+                    + value.getClass().getSimpleName() + ". "
+                    + type.getSimpleName() + " given.");
+        }
 	}
 	
 	public <T> void add(String key, T value) {
-		this.properties.put(key, new Property<Object>(value));
-		
-		if (this.ifAdded.containsKey(key)) {
-			this.ifAdded.get(key).run();
-		}
+        slots.put(key, value);
 	}
 }

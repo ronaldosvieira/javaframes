@@ -1,12 +1,12 @@
 package model;
 
 public class GenericFrame extends Frame {
-	public GenericFrame() {
-		super();
+	public GenericFrame(String name) {
+		super(name);
 	}
 	
-	public GenericFrame(Frame parent) {
-		super(parent);
+	public GenericFrame(String name, GenericFrame parent) {
+		super(name, parent);
 	}
 
 }
