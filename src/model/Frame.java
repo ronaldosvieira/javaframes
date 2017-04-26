@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 public abstract class Frame {
     private String name;
 	protected GenericFrame parent;
-	private Map<String, Object> slots;
+	private Map<String, Slot> slots;
 	
 	public Frame(String name) {
 	    this.name = name;
@@ -24,12 +24,12 @@ public abstract class Frame {
     public void setName(String name) {this.name = name;}
 
     public boolean contains(String key) {
-	    return slots.containsKey(key);
+	    return slots.containsKey(key) && slots.get(key).hasValue();
     }
 
 	public Object get(String key) {
 	    if (this.contains(key))
-	        return slots.get(key);
+	        return slots.get(key).getValue();
         else if (parent != null && parent.contains(key))
             return parent.get(key);
         else
@@ -49,6 +49,6 @@ public abstract class Frame {
 	}
 	
 	public <T> void add(String key, T value) {
-        slots.put(key, value);
+        slots.put(key, new Slot(value));
 	}
 }
