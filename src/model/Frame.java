@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public abstract class Frame {
     private String name;
@@ -77,4 +78,17 @@ public abstract class Frame {
 	    slot.setIfAdded(if_added);
 	    slots.put(key, slot);
     }
+
+    public void ifNeeded(String key, Supplier<Object> if_needed) {
+		Slot slot;
+
+		try {
+			slot = this.find(key);
+		} catch (NoSuchElementException e) {
+			slot = new Slot();
+		}
+
+		slot.setIfNeeded(if_needed);
+		slots.put(key, slot);
+	}
 }
