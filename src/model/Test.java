@@ -7,11 +7,13 @@ public class Test {
 		GenericFrame pessoa = new GenericFrame("Pessoa");
         GenericFrame diogo = new GenericFrame("Diogo", pessoa);
 
-        pessoa.add("respira?", true);
-		diogo.add("idade", 24);
-		
-		System.out.println(diogo.get("idade", Integer.class));
-		System.out.println(diogo.get("respira?"));
+        pessoa.set("respira?", true);
+        System.out.println("respira? = " + diogo.get("respira?"));
+
+        diogo.ifAdded("idade", o -> System.out.println("Já tem " + o + "? Tem carinha de novinho..."));
+
+        diogo.set("idade", 24);
+		System.out.println("idade = " + diogo.get("idade", Integer.class));
 
         try {
 			diogo.get("fotosNoVikings");

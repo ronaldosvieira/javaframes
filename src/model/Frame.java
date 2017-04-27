@@ -3,6 +3,7 @@ package model;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 public abstract class Frame {
     private String name;
@@ -53,7 +54,7 @@ public abstract class Frame {
         }
 	}
 	
-	public <T> void add(String key, T value) {
+	public <T> void set(String key, T value) {
 	    try {
 	        Slot slot = this.find(key);
 	        slot.setValue(value);
@@ -63,4 +64,17 @@ public abstract class Frame {
             slots.put(key, new Slot(value));
         }
 	}
+
+	public void ifAdded(String key, Consumer<Object> if_added) {
+	    Slot slot;
+
+	    try {
+	        slot = this.find(key);
+        } catch (NoSuchElementException e) {
+	        slot = new Slot();
+        }
+
+	    slot.setIfAdded(if_added);
+	    slots.put(key, slot);
+    }
 }
