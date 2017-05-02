@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Test {
@@ -26,13 +28,24 @@ public class Test {
         diogo.addConstraint("notaDeCalculoII", new TypeConstraint(Number.class));
 
         try {
-            diogo.set("notaDeCalculoII", "string");
-        } catch (IllegalArgumentException e){
+            diogo.set("notaDeCalculoII", "string-qualquer");
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
 
         diogo.set("notaDeCalculoII", 5.0f);
         System.out.println("notaDeCalculoII = " + diogo.get("notaDeCalculoII"));
+
+        String[] apelidos = {"dioguinho", "lolito", "zigoto"};
+        diogo.addConstraint("apelido", new ContainsConstraint(Arrays.asList(apelidos)));
+
+        diogo.set("apelido", "lolito");
+
+        try {
+            diogo.set("apelido", "bonitinho");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
 
         try {
 			diogo.get("fotosNoVikings");
