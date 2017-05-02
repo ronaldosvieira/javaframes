@@ -91,4 +91,17 @@ public abstract class Frame {
 		slot.setIfNeeded(if_needed);
 		slots.put(key, slot);
 	}
+
+	public void addConstraint(String key, Constraint constraint) {
+	    Slot slot;
+
+	    try {
+	        slot = this.find(key);
+        } catch (NoSuchElementException e) {
+	        slot = new Slot();
+        }
+
+        slot.addConstraint(constraint);
+	    slots.put(key, slot);
+    }
 }
