@@ -45,7 +45,12 @@ public class Slot {
     public void setIfNeeded(Supplier<Object> if_needed) {this.if_needed = if_needed;}
 
     public void clearConstraints() {this.constraints.clear();}
-    public void addConstraint(Constraint constraint) {this.constraints.add(constraint);}
+
+    public void addConstraint(Constraint constraint) {
+        if (!this.constraints.contains(constraint)) {
+            this.constraints.add(constraint);
+        }
+    }
 
     public boolean hasValue() {return this.value != null;}
 }
