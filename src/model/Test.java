@@ -8,14 +8,14 @@ public class Test {
         InstanceFrame diogo = new InstanceFrame("Diogo", pessoa);
 
         pessoa.set("respira?", true);
+        System.out.println("respira? = " + diogo.get("respira?"));
 
         diogo.ifAdded("idade", o -> System.out.println("Já tem " + o + "? Tem carinha de novinho..."));
         diogo.set("idade", 24);
 
-        diogo.ifNeeded("estaNaRural?", () -> "Provavelmente não");
+        System.out.println("idade = " + diogo.get("idade", Integer.class));
 
-		System.out.println("respira? = " + diogo.get("respira?"));
-		System.out.println("idade = " + diogo.get("idade", Integer.class));
+        diogo.ifNeeded("estaNaRural?", () -> "Provavelmente não");
         System.out.println("estaNaRural? = " + diogo.get("estaNaRural?"));
 
         diogo.set("estaNaRural?", true);
