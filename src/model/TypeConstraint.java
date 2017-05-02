@@ -1,9 +1,14 @@
 package model;
 
+import com.sun.istack.internal.NotNull;
+
 public class TypeConstraint implements Constraint {
     private Class<?> type;
 
-    public TypeConstraint(Class<?> type) {
+    public TypeConstraint(@NotNull Class<?> type) {
+        if (type == null)
+            throw new IllegalArgumentException("TypeConstraint with null class");
+
         this.type = type;
     }
 
