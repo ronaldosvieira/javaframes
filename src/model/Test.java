@@ -26,9 +26,16 @@ public class Test {
         System.out.println("estaNaRural? = " + diogo.get("estaNaRural?"));
 
         diogo.addConstraint("notaDeCalculoII", new TypeConstraint(Number.class));
+        diogo.addConstraint("notaDeCalculoII", new RangeConstraint(0.0f, 10.0f));
 
         try {
             diogo.set("notaDeCalculoII", "string-qualquer");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            diogo.set("notaDeCalculoII", -5.0f);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
