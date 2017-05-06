@@ -50,6 +50,13 @@ public class RangeConstraint implements Constraint {
     public boolean check(Object value) {
         if (!(value instanceof Comparable)) return false;
 
+        try {
+            lo.getClass().cast(value);
+            hi.getClass().cast(value);
+        } catch (ClassCastException e) {
+            return false;
+        }
+
         return operators[0].test(value, lo) && operators[1].test(value, hi);
     }
 }
