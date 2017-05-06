@@ -35,14 +35,14 @@ public class RangeConstraint implements Constraint {
 
         char incl = inclusivity.charAt(0);
 
-        if (incl == '[') operators[0] = lessThanOrEqual;
-        else if (incl == '(' || incl == ']') operators[0] = lessThan;
+        if (incl == '[') operators[0] = greaterThanOrEqual;
+        else if (incl == '(' || incl == ']') operators[0] = greaterThan;
         else throw new IllegalArgumentException("Invalid inclusivity string");
 
         incl = inclusivity.charAt(1);
 
-        if (incl == ']') operators[1] = greaterThanOrEqual;
-        else if (incl == ')' || incl == '[') operators[1] = greaterThan;
+        if (incl == ']') operators[1] = lessThanOrEqual;
+        else if (incl == ')' || incl == '[') operators[1] = lessThan;
         else throw new IllegalArgumentException("Invalid inclusivity string");
     }
 
