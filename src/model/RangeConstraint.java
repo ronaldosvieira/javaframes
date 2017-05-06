@@ -5,8 +5,8 @@ import org.jetbrains.annotations.Contract;
 
 import java.util.function.BiPredicate;
 
-public class RangeConstraint<T> implements Constraint {
-    private T lo, hi;
+public class RangeConstraint implements Constraint {
+    private Comparable lo, hi;
     private BiPredicate[] operators = new BiPredicate[2];
 
     private static final BiPredicate<Comparable, Comparable> lessThan =
@@ -18,18 +18,17 @@ public class RangeConstraint<T> implements Constraint {
     private static final BiPredicate<Comparable, Comparable> greaterThanOrEqual =
             (c1, c2) -> c1.compareTo(c2) >= 0;
 
-    @Contract("null, null -> fail")
-    public RangeConstraint(T lo, T hi) {
+    public RangeConstraint(Comparable lo, Comparable hi) {
+        this(lo, hi, "[]");
+    }
+
+    @Contract("_, _, null -> fail")
+    public RangeConstraint(Comparable lo, Comparable hi, @NotNull String inclusivity) {
         if (lo == null && hi == null)
             throw new IllegalArgumentException("Lo and hi can't both be null");
 
         this.lo = lo;
         this.hi = hi;
-    }
-
-    @Contract("_, _, null -> fail")
-    public RangeConstraint(T lo, T hi, @NotNull String inclusivity) {
-        this(lo, hi);
 
         if (inclusivity == null || inclusivity.length() != 2)
             throw new IllegalArgumentException("Invalid inclusivity string");
