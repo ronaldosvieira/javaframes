@@ -21,6 +21,13 @@ public class Slot {
         this.value = value;
     }
 
+    public Slot(Slot slot) {
+        this.value = slot.value;
+        this.if_added = slot.if_added;
+        this.if_needed = slot.if_needed;
+        this.constraints = slot.constraints;
+    }
+
     public Object getValue() {
         if (value != null)
             return value;

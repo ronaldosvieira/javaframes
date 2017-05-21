@@ -21,6 +21,16 @@ public abstract class Frame {
         this.parent = parent;
     }
 
+    public Frame(Frame frame) {
+	    this.name = frame.name;
+	    this.parent = frame.parent;
+	    this.slots = new HashMap<>();
+
+        for (String slot : frame.slots.keySet()) {
+            this.slots.put(slot, new Slot(frame.slots.get(slot)));
+        }
+    }
+
     public String name() {return this.name;}
 	public GenericFrame parent() {return this.parent;}
 

@@ -9,4 +9,5 @@ public class GenericFrame extends Frame {
 		super(name, parent);
 	}
 
+	public GenericFrame(GenericFrame frame) {super(frame);}
 }

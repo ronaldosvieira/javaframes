@@ -62,5 +62,11 @@ public class Test {
         System.out.println("'diogo' isA 'pessoa'? " + diogo.isA(pessoa));
         System.out.println("'diogo' isA 'coelho'? " +
                 diogo.isA(new GenericFrame("Coelho")));
-	}
+
+        InstanceFrame diogo2 = new InstanceFrame(diogo);
+        diogo2.set("notaDeCalculoII", 10.0f);
+
+        System.out.println("diogo's notaDeCalculoII: " + diogo.get("notaDeCalculoII"));
+        System.out.println("diogo2's notaDeCalculoII: " + diogo2.get("notaDeCalculoII"));
+    }
 }
