@@ -21,11 +21,17 @@ public abstract class Frame {
         this.parent = parent;
     }
 
-    public String getName() {return this.name;}
+    public String name() {return this.name;}
 	public GenericFrame parent() {return this.parent;}
 
 	public void setName(String name) {this.name = name;}
     public void setParent(GenericFrame parent) {this.parent = parent;}
+
+    public boolean isA(String type) {
+	    return name().equals(type) || (parent() != null && parent().isA(type));
+    }
+
+    public boolean isA(GenericFrame type) {return this.isA(type.name());}
 
     public boolean contains(String key) {
 	    return slots.containsKey(key);
@@ -38,7 +44,7 @@ public abstract class Frame {
 	        return parent.find(key);
 	    else
 	        throw new NoSuchElementException("Slot '" + key
-                    + "' not found on frame " + getName());
+                    + "' not found on frame " + name());
     }
 
 	public Object get(String key) throws NoSuchElementException {

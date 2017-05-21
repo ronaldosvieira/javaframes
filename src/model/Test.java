@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Test {
@@ -59,5 +57,10 @@ public class Test {
 		} catch (NoSuchElementException e) {
 			System.out.println(e.getMessage());
 		}
+
+        System.out.println("'diogo' isA 'diogo'? " + diogo.isA(diogo.name()));
+        System.out.println("'diogo' isA 'pessoa'? " + diogo.isA(pessoa));
+        System.out.println("'diogo' isA 'coelho'? " +
+                diogo.isA(new GenericFrame("Coelho")));
 	}
 }
