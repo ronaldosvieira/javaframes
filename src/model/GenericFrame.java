@@ -10,4 +10,6 @@ public class GenericFrame extends Frame {
 	}
 
 	public GenericFrame(GenericFrame frame) {super(frame);}
+
+	public GenericFrame clone() {return new GenericFrame(this);}
 }

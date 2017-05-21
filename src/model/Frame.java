@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public abstract class Frame {
+public abstract class Frame implements Cloneable {
     private String name;
 	protected GenericFrame parent;
 	private Map<String, Slot> slots;

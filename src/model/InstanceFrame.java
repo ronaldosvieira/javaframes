@@ -6,4 +6,6 @@ public class InstanceFrame extends Frame {
 	}
 
 	public InstanceFrame(InstanceFrame frame) {super(frame);}
+
+	public InstanceFrame clone() {return new InstanceFrame(this);}
 }

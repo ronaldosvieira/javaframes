@@ -68,5 +68,6 @@ public class Test {
 
         System.out.println("diogo's notaDeCalculoII: " + diogo.get("notaDeCalculoII"));
         System.out.println("diogo2's notaDeCalculoII: " + diogo2.get("notaDeCalculoII"));
+        System.out.println("diogo3's notaDeCalculoII: " + diogo2.clone().get("notaDeCalculoII"));
     }
 }
