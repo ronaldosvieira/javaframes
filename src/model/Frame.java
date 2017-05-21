@@ -23,7 +23,9 @@ public abstract class Frame {
 
     public String getName() {return this.name;}
 	public GenericFrame parent() {return this.parent;}
-    public void setName(String name) {this.name = name;}
+
+	public void setName(String name) {this.name = name;}
+    public void setParent(GenericFrame parent) {this.parent = parent;}
 
     public boolean contains(String key) {
 	    return slots.containsKey(key);
