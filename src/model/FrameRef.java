@@ -3,11 +3,11 @@ package model;
 import org.jetbrains.annotations.NotNull;
 
 public class FrameRef {
-    private String reference;
+    private String ref;
 
     public FrameRef(@NotNull Frame frame) {
         try {
-            this.reference = frame.name();
+            this.ref = frame.name();
         } catch (NullPointerException e) {
             throw new IllegalArgumentException(
                     "Frame ref constructor must receive a non-null frame");
@@ -15,6 +15,6 @@ public class FrameRef {
     }
 
     public Frame retrieve() {
-        return KnowledgeBase.retrieve(this.reference);
+        return KnowledgeBase.retrieve(this.ref);
     }
 }

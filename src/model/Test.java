@@ -12,6 +12,9 @@ public class Test {
 		GenericFrame pessoa = new GenericFrame("Pessoa");
         InstanceFrame diogo = new InstanceFrame("Diogo", pessoa);
 
+        KnowledgeBase.put(pessoa);
+        KnowledgeBase.put(diogo);
+
         pessoa.set("respira?", true);
         System.out.println("respira? = " + diogo.get("respira?"));
 

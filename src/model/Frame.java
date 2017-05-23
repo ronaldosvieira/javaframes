@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public abstract class Frame implements Cloneable {
     private String name;
-	protected GenericFrame parent;
+	protected FrameRef parent;
 	private Map<String, Slot> slots;
 	
 	public Frame(String name) {
@@ -22,7 +22,7 @@ public abstract class Frame implements Cloneable {
 	
 	public Frame(String name, GenericFrame parent) {
         this(name);
-        this.parent = parent;
+        this.parent = parent.ref();
     }
 
     public Frame(Frame frame) {
@@ -36,10 +36,12 @@ public abstract class Frame implements Cloneable {
     }
 
     public String name() {return this.name;}
-	public GenericFrame parent() {return this.parent;}
+	public GenericFrame parent() {
+	    return this.parent != null? (GenericFrame) this.parent.retrieve() : null;
+	}
 
 	public void setName(String name) {this.name = name;}
-    public void setParent(GenericFrame parent) {this.parent = parent;}
+    public void setParent(GenericFrame parent) {this.parent = parent.ref();}
 
     public boolean isA(String type) {
 	    return name().equals(type) || (parent() != null && parent().isA(type));
@@ -54,8 +56,8 @@ public abstract class Frame implements Cloneable {
     protected Slot find(String key) throws NoSuchElementException {
 	    if (this.contains(key))
 	        return slots.get(key);
-	    else if (parent != null && parent.contains(key))
-	        return parent.find(key);
+	    else if (parent != null && parent.retrieve().contains(key))
+	        return parent.retrieve().find(key);
 	    else
 	        throw new NoSuchElementException("Slot '" + key
                     + "' not found on frame " + name());
