@@ -1,5 +1,7 @@
 package model;
 
+import model.constraint.Constraint;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;

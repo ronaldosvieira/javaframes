@@ -1,4 +1,4 @@
-package model;
+package model.constraint;
 
 import com.sun.istack.internal.NotNull;
 

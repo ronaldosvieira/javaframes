@@ -1,5 +1,9 @@
 package model;
 
+import model.constraint.ContainsConstraint;
+import model.constraint.RangeConstraint;
+import model.constraint.TypeConstraint;
+
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
