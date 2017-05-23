@@ -1,6 +1,8 @@
 package model;
 
+import com.google.gson.GsonBuilder;
 import model.constraint.Constraint;
+import model.util.ClassTypeAdapterFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -126,4 +128,11 @@ public abstract class Frame implements Cloneable {
     }
 
     public FrameRef ref() {return new FrameRef(this);}
+
+    public String toJson() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapterFactory(new ClassTypeAdapterFactory());
+
+	    return builder.create().toJson(this);
+    }
 }
