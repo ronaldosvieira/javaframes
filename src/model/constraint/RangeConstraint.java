@@ -3,20 +3,20 @@ package model.constraint;
 import com.sun.istack.internal.NotNull;
 import org.jetbrains.annotations.Contract;
 
+import java.util.HashMap;
 import java.util.function.BiPredicate;
 
 public class RangeConstraint implements Constraint {
     private Comparable lo, hi;
-    private BiPredicate[] operators = new BiPredicate[2];
+    private char[] bounds = {'[', ')'};
 
-    private static final BiPredicate<Comparable, Comparable> lessThan =
-            (c1, c2) -> c1.compareTo(c2) < 0;
-    private static final BiPredicate<Comparable, Comparable> lessThanOrEqual =
-            (c1, c2) -> c1.compareTo(c2) <= 0;
-    private static final BiPredicate<Comparable, Comparable> greaterThan =
-            (c1, c2) -> c1.compareTo(c2) > 0;
-    private static final BiPredicate<Comparable, Comparable> greaterThanOrEqual =
-            (c1, c2) -> c1.compareTo(c2) >= 0;
+    private static final HashMap<Character, BiPredicate<Comparable, Comparable>> operators = new HashMap<>();
+    static {
+        operators.put(')', (c1, c2) -> c1.compareTo(c2) < 0);
+        operators.put(']', (c1, c2) -> c1.compareTo(c2) <= 0);
+        operators.put('(', (c1, c2) -> c1.compareTo(c2) > 0);
+        operators.put('[', (c1, c2) -> c1.compareTo(c2) >= 0);
+    }
 
     public RangeConstraint(Comparable lo, Comparable hi) {
         this(lo, hi, "[]");
@@ -35,14 +35,14 @@ public class RangeConstraint implements Constraint {
 
         char incl = inclusivity.charAt(0);
 
-        if (incl == '[') operators[0] = greaterThanOrEqual;
-        else if (incl == '(' || incl == ']') operators[0] = greaterThan;
+        if (incl == '[') bounds[0] = '[';
+        else if (incl == '(' || incl == ']') bounds[0] = '(';
         else throw new IllegalArgumentException("Invalid inclusivity string");
 
         incl = inclusivity.charAt(1);
 
-        if (incl == ']') operators[1] = lessThanOrEqual;
-        else if (incl == ')' || incl == '[') operators[1] = lessThan;
+        if (incl == ']') bounds[1] = ']';
+        else if (incl == ')' || incl == '[') bounds[1] = ')';
         else throw new IllegalArgumentException("Invalid inclusivity string");
     }
 
@@ -57,6 +57,7 @@ public class RangeConstraint implements Constraint {
             return false;
         }
 
-        return operators[0].test(value, lo) && operators[1].test(value, hi);
+        return operators.get(bounds[0]).test((Comparable) value, lo)
+                && operators.get(bounds[1]).test((Comparable)value, hi);
     }
 }
