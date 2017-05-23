@@ -122,4 +122,6 @@ public abstract class Frame implements Cloneable {
         slot.addConstraint(constraint);
 	    slots.put(key, slot);
     }
+
+    public FrameRef ref() {return new FrameRef(this);}
 }
