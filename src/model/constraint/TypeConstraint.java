@@ -3,6 +3,7 @@ package model.constraint;
 import com.sun.istack.internal.NotNull;
 
 public class TypeConstraint implements Constraint {
+    private final String constraint = "type";
     private Class<?> type;
 
     public TypeConstraint(@NotNull Class<?> type) {

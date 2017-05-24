@@ -3,12 +3,12 @@ package model;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import model.constraint.Constraint;
+import model.constraint.ContainsConstraint;
+import model.constraint.RangeConstraint;
+import model.constraint.TypeConstraint;
 import model.util.ClassTypeAdapterFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -176,8 +176,32 @@ public abstract class Frame implements Cloneable {
             if (!value.get("constraints").isJsonNull()) {
                 for (JsonElement constraint : value.get("constraints").getAsJsonArray()) {
                     JsonObject constraintObj = constraint.getAsJsonObject();
+                    String constrType = constraintObj.get("constraint").getAsString();
+                    Constraint constr;
+                    try {
+                        switch (constrType) {
+                            case "type":
+                                String className = constraintObj.get("type").getAsString();
+                                constr = new TypeConstraint(Class.forName(className));
+                                break;
 
-                    // todo: parse constraints
+                            case "contains":
+                                JsonArray accepts = constraintObj.get("accepts").getAsJsonArray();
+                                constr = new ContainsConstraint(gson.fromJson(accepts, ArrayList.class));
+                                break;
+
+                            case "range":
+                                Comparable lo = (Comparable) gson.fromJson(constraintObj.get("lo"), Object.class);
+                                Comparable hi = (Comparable) gson.fromJson(constraintObj.get("hi"), Object.class);
+                                JsonArray bounds = constraintObj.get("bounds").getAsJsonArray();
+                                String inclusivity = bounds.get(0).getAsString() + bounds.get(1).getAsString();
+
+                                constr = new RangeConstraint(lo, hi, inclusivity);
+                                break;
+                        }
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

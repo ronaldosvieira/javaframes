@@ -5,6 +5,7 @@ import com.sun.istack.internal.NotNull;
 import java.util.List;
 
 public class ContainsConstraint implements Constraint {
+    private final String constraint = "contains";
     private List accepts;
 
     public ContainsConstraint(@NotNull List accepts) {
