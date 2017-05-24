@@ -1,12 +1,14 @@
 package model;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import model.constraint.Constraint;
 import model.util.ClassTypeAdapterFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -39,6 +41,7 @@ public abstract class Frame implements Cloneable {
 	public GenericFrame parent() {
 	    return this.parent != null? (GenericFrame) this.parent.retrieve() : null;
 	}
+	public Set<String> slots() {return this.slots.keySet();}
 
 	public void setName(String name) {this.name = name;}
     public void setParent(GenericFrame parent) {this.parent = parent.ref();}
@@ -152,7 +155,32 @@ public abstract class Frame implements Cloneable {
             frame.setParent(gson.fromJson(parent, FrameRef.class));
         }
 
-        // todo: parse slots
+        JsonObject slots = frameJson.get("slots").getAsJsonObject();
+        for (Map.Entry<String, JsonElement> slot : slots.entrySet()) {
+            String key = slot.getKey();
+            JsonObject value = slot.getValue().getAsJsonObject();
+
+            if (!value.get("value").isJsonNull())
+                frame.set(key, gson.fromJson(value.get("value"), Object.class));
+
+            /*
+            if (!value.get("if_added").isJsonNull())
+                frame.ifAdded(key, gson.fromJson(value.get("if_added"),
+                        new TypeToken<Consumer<Object>>(){}.getType()));
+
+            if (!value.get("if_needed").isJsonNull())
+                frame.ifNeeded(key, gson.fromJson(value.get("if_needed"),
+                        new TypeToken<Supplier<Object>>(){}.getType()));
+            */
+
+            if (!value.get("constraints").isJsonNull()) {
+                for (JsonElement constraint : value.get("constraints").getAsJsonArray()) {
+                    JsonObject constraintObj = constraint.getAsJsonObject();
+
+                    // todo: parse constraints
+                }
+            }
+        }
 
         return frame;
     }
