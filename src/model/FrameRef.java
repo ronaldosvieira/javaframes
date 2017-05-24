@@ -15,6 +15,6 @@ public class FrameRef {
     }
 
     public Frame retrieve() {
-        return KnowledgeBase.retrieve(this.ref);
+        return KnowledgeBase.retrieveFrame(this.ref);
     }
 }
