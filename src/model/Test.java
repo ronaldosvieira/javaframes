@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import model.constraint.ContainsConstraint;
 import model.constraint.RangeConstraint;
 import model.constraint.TypeConstraint;
@@ -77,6 +78,9 @@ public class Test {
         System.out.println("diogo2's notaDeCalculoII: " + diogo2.get("notaDeCalculoII"));
         System.out.println("diogo3's notaDeCalculoII: " + diogo2.clone().get("notaDeCalculoII"));
 
-        System.out.println(diogo.toJson());
+        String json = diogo.toJson();
+        System.out.println(json);
+
+        System.out.println(Frame.fromJson(json));
     }
 }

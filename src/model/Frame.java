@@ -1,6 +1,6 @@
 package model;
 
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import model.constraint.Constraint;
 import model.util.ClassTypeAdapterFactory;
 
@@ -42,6 +42,7 @@ public abstract class Frame implements Cloneable {
 
 	public void setName(String name) {this.name = name;}
     public void setParent(GenericFrame parent) {this.parent = parent.ref();}
+    public void setParent(FrameRef ref) {this.parent = ref;}
 
     public boolean isA(String type) {
 	    return name().equals(type) || (parent() != null && parent().isA(type));
@@ -134,7 +135,25 @@ public abstract class Frame implements Cloneable {
     public String toJson() {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapterFactory(new ClassTypeAdapterFactory());
+        builder.serializeNulls();
 
 	    return builder.create().toJson(this);
+    }
+
+    public static Frame fromJson(String json) {
+	    Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+
+        JsonObject frameJson = parser.parse(json).getAsJsonObject();
+        Frame frame = new GenericFrame(frameJson.get("name").getAsString());
+
+        JsonElement parent = frameJson.get("parent");
+        if (!parent.isJsonNull()) {
+            frame.setParent(gson.fromJson(parent, FrameRef.class));
+        }
+
+        // todo: parse slots
+
+        return frame;
     }
 }
